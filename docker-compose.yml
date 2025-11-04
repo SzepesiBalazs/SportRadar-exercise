@@ -1,0 +1,31 @@
+version: "4.49.0"
+services:
+  app:
+    build: .
+    container_name: sr_exercise
+    ports:
+      - "8080:80"        # localhost:8080 → container port 80
+    environment:
+      - DB_HOST=db
+      - DB_USER=dbuser
+      - DB_PASSWORD=dbpass
+      - DB_NAME=sportradar_exercise
+    depends_on:
+      - db
+    volumes:
+      - .:/var/www/html  # Mount your code if using PHP or similar
+
+  db:
+    image: mysql:8.0
+    container_name: mydb
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: dbpass
+      MYSQL_DATABASE: sportradar_exercise
+    ports:
+      - "3306:3306"      # Expose DB to host if needed
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:
