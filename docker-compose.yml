@@ -23,8 +23,6 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: dbpass
       MYSQL_DATABASE: sportradar_exercise
-      MYSQL_USER: root
-      MYSQL_PASSWORD: dbpass
     ports:
       - "3306:3306"      
     volumes:
