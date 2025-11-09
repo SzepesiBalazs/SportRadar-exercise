@@ -21,14 +21,19 @@ INSERT INTO competitions (name, country_id) VALUES
 
 INSERT INTO venues (name, capacity, country_id) VALUES
 ('Santiago Bernabéu', 81044, 1),
-('Camp Nou', 99354, 1);
+('Camp Nou', 99354, 1),
+('Old Trafford', 74879, 2),
+('Anfield', 54074, 2);
 
 INSERT INTO competitors (name, nationality, age, gender_id, short_name) VALUES
 ('Real Madrid', 1, NULL, NULL, 'RMA'),
-('Barcelona', 1, NULL, NULL, 'FCB');
+('Barcelona', 1, NULL, NULL, 'FCB'),
+('Manchester United', 2, NULL, NULL, 'MUN'),
+('Liverpool', 2, NULL, NULL, 'LIV');
 
 INSERT INTO events (sport_id, competition_id, start_time, competitor_home_id, competitor_away_id, venue_id) VALUES
-(1, 1, '2024-10-01 14:00:00', 1, 2, 1);
+(1, 1, '2024-10-01 14:00:00', 1, 2, 1),
+(1, 2, '2024-10-03 17:00:00', 3, 4, 3);
 ";
 
 if ($pdo->exec($sql)) {

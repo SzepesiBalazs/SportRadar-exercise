@@ -5,6 +5,7 @@ $router = new Router();
 
 $router->get('/api/countries', __DIR__ . '/api/countries.php');
 $router->post('/api/countries', __DIR__ . '/api/countries_create.php');
+$router->get('/api/events', __DIR__ . '/api/events.php');
 
 $requestUri = strtok($_SERVER['REQUEST_URI'], '?');
 
