@@ -49,10 +49,9 @@ try {
         ORDER BY e.start_time ASC
     ";
 
-    $stmt = $pdo->query($sql);
-    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-    $events = array_map(fn($row) => new EventDTO($row), $rows);
+    $query = $pdo->query($sql);
+    $rows = $query->fetchAll(PDO::FETCH_ASSOC);
+    $events = array_map(fn($row) => new EventDto($row), $rows);
 
     echo json_encode($events, JSON_PRETTY_PRINT);
 

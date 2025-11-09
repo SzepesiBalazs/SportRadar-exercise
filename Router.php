@@ -42,21 +42,12 @@ class Router
             if ($route['method'] === $method && $route['path'] === $uri) {
                 $handler = $route['handler'];
 
-                if (is_string($handler) && file_exists($handler)) {
+                if ($handler) {
                     require $handler;
                 }
-                elseif (is_callable($handler)) {
-                    call_user_func($handler);
-                } else {
-                    http_response_code(500);
-                    echo json_encode(['error' => 'Invalid route handler']);
-                }
+
                 return;
             }
         }
-
-        http_response_code(404);
-        header('Content-Type: application/json');
-        echo json_encode(['error' => 'Endpoint not found']);
     }
 }
