@@ -33,7 +33,7 @@ INSERT INTO competitors (name, nationality, age, gender_id, short_name) VALUES
 
 INSERT INTO events (sport_id, competition_id, start_time, competitor_home_id, competitor_away_id, venue_id) VALUES
 (1, 1, '2024-10-01 14:00:00', 1, 2, 1),
-(1, 2, '2024-10-03 17:00:00', 3, 4, 3);
+(1, 2, '2024-10-03 17:00:00', 3, 4, 3),
 ";
 
 if ($pdo->exec($sql)) {
@@ -43,4 +43,3 @@ if ($pdo->exec($sql)) {
 }
 
 $pdo = null;
-?>

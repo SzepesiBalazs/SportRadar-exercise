@@ -1,14 +1,19 @@
 const EVENTS_URL = "api/events.php";
 const COMPETITIONS_URL = "api/competitions.php";
+const SPORTS_URL = "api/sports.php";
 
 const eventContainer = document.getElementById("eventsContainer");
 const eventTemplate = document.getElementById("event-template");
 const competitionSelect = document.querySelector("#competitionsContainer select");
+const sportsSelect = document.querySelector("#sportsContainer select");
 const filterButton = document.getElementById("filterButton");
 
-async function fetchEvents(competitionId = "") {
+async function fetchEvents(competitionId = "", sportId = "") {
   try {
-    const url = competitionId ? `${EVENTS_URL}?competition_id=${competitionId}` : EVENTS_URL;
+    const url = new URL(EVENTS_URL, window.location.origin);
+    if (competitionId) url.searchParams.append("competition_id", competitionId);
+    if (sportId) url.searchParams.append("sport_id", sportId);
+
     const response = await fetch(url);
     const events = await response.json();
     renderEvents(events);
@@ -22,6 +27,16 @@ async function fetchCompetitions() {
     const response = await fetch(COMPETITIONS_URL);
     const competitions = await response.json();
     renderCompetitions(competitions);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+async function fetchSports() {
+  try {
+    const response = await fetch(SPORTS_URL);
+    const sports = await response.json();
+    renderSports(sports);
   } catch (error) {
     console.error(error);
   }
@@ -55,10 +70,23 @@ function renderCompetitions(competitions) {
   });
 }
 
+function renderSports(sports) {
+  sportsSelect.innerHTML = '<option value="">All Sports</option>';
+
+  sports.forEach((sport) => {
+    const option = document.createElement("option");
+    option.value = sport.id;
+    option.textContent = sport.name;
+    sportsSelect.appendChild(option);
+  });
+}
+
 filterButton.addEventListener("click", () => {
   const selectedCompetition = competitionSelect.value;
-  fetchEvents(selectedCompetition);
+  const selectedSport = sportsSelect.value;
+  fetchEvents(selectedCompetition, selectedSport);
 });
 
 fetchCompetitions();
+fetchSports();
 fetchEvents();

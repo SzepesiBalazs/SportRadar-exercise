@@ -6,6 +6,7 @@ header('Content-Type: application/json');
 
 try {
     $competitionId = $_GET['competition_id'] ?? null;
+    $sportId = $_GET['sport_id'] ?? null;
 
     $sql = "
         SELECT
@@ -50,24 +51,32 @@ try {
         LEFT JOIN genders away_gender ON away.gender_id = away_gender.id
     ";
 
+    $conditions = [];
+    $params = [];
+
     if ($competitionId) {
-        $sql .= " WHERE e.competition_id = :competition_id";
+        $conditions[] = "e.competition_id = :competition_id";
+        $params['competition_id'] = $competitionId;
+    }
+
+    if ($sportId) {
+        $conditions[] = "e.sport_id = :sport_id";
+        $params['sport_id'] = $sportId;
+    }
+
+    if (count($conditions)) {
+        $sql .= " WHERE " . implode(" AND ", $conditions);
     }
 
     $sql .= " ORDER BY e.start_time ASC";
 
-    if ($competitionId) {
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute(['competition_id' => $competitionId]);
-    } else {
-        $stmt = $pdo->query($sql);
-    }
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute($params);
 
     $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
     $events = array_map(fn($row) => new EventDto($row), $rows);
 
     echo json_encode($events, JSON_PRETTY_PRINT);
-
 } catch (PDOException $e) {
     http_response_code(500);
     echo json_encode(['error' => $e->getMessage()]);
