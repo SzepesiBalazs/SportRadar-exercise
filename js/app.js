@@ -1,11 +1,15 @@
-const API_URL = "api/events.php";
+const EVENTS_URL = "api/events.php";
+const COMPETITIONS_URL = "api/competitions.php";
 
-const container = document.getElementById("eventsContainer");
-const template = document.getElementById("event-template");
+const eventContainer = document.getElementById("eventsContainer");
+const eventTemplate = document.getElementById("event-template");
+const competitionSelect = document.querySelector("#competitionsContainer select");
+const filterButton = document.getElementById("filterButton");
 
-async function fetchEvents() {
+async function fetchEvents(competitionId = "") {
   try {
-    const response = await fetch(API_URL);
+    const url = competitionId ? `${EVENTS_URL}?competition_id=${competitionId}` : EVENTS_URL;
+    const response = await fetch(url);
     const events = await response.json();
     renderEvents(events);
   } catch (error) {
@@ -13,11 +17,21 @@ async function fetchEvents() {
   }
 }
 
-function renderEvents(events) {
-  container.innerHTML = ""; 
+async function fetchCompetitions() {
+  try {
+    const response = await fetch(COMPETITIONS_URL);
+    const competitions = await response.json();
+    renderCompetitions(competitions);
+  } catch (error) {
+    console.error(error);
+  }
+}
 
-  events.forEach(event => {
-    const clone = template.content.cloneNode(true);
+function renderEvents(events) {
+  eventContainer.innerHTML = "";
+
+  events.forEach((event) => {
+    const clone = eventTemplate.content.cloneNode(true);
 
     clone.querySelector(".event-title").textContent = `${event.sport.name} — ${event.competition.name}`;
     clone.querySelector(".event-start").textContent = `Start: ${new Date(event.start_time).toLocaleString()}`;
@@ -26,8 +40,25 @@ function renderEvents(events) {
     clone.querySelector(".event-home").textContent = `Home: ${event.competitors.home.name} (${event.competitors.home.short_name})`;
     clone.querySelector(".event-away").textContent = `Away: ${event.competitors.away.name} (${event.competitors.away.short_name})`;
 
-    container.appendChild(clone);
+    eventContainer.appendChild(clone);
   });
 }
 
+function renderCompetitions(competitions) {
+  competitionSelect.innerHTML = '<option value="">All Competitions</option>';
+
+  competitions.forEach((competition) => {
+    const option = document.createElement("option");
+    option.value = competition.id;
+    option.textContent = competition.name;
+    competitionSelect.appendChild(option);
+  });
+}
+
+filterButton.addEventListener("click", () => {
+  const selectedCompetition = competitionSelect.value;
+  fetchEvents(selectedCompetition);
+});
+
+fetchCompetitions();
 fetchEvents();

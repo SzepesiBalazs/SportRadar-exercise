@@ -5,6 +5,7 @@ $router = new Router();
 
 $router->get('/api/countries', __DIR__ . '/api/countries.php');
 $router->get('/api/events', __DIR__ . '/api/events.php');
+$router->get('/api/competitions', __DIR__ . '/api/competitions.php');
 
 $requestUri = strtok($_SERVER['REQUEST_URI'], '?');
 

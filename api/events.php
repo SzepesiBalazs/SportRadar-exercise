@@ -5,6 +5,8 @@ require_once __DIR__ . '/../dto/EventDto.php';
 header('Content-Type: application/json');
 
 try {
+    $competitionId = $_GET['competition_id'] ?? null;
+
     $sql = "
         SELECT
             e.id AS event_id,
@@ -46,11 +48,22 @@ try {
         LEFT JOIN competitors away ON e.competitor_away_id = away.id
         LEFT JOIN countries away_country ON away.nationality = away_country.id
         LEFT JOIN genders away_gender ON away.gender_id = away_gender.id
-        ORDER BY e.start_time ASC
     ";
 
-    $query = $pdo->query($sql);
-    $rows = $query->fetchAll(PDO::FETCH_ASSOC);
+    if ($competitionId) {
+        $sql .= " WHERE e.competition_id = :competition_id";
+    }
+
+    $sql .= " ORDER BY e.start_time ASC";
+
+    if ($competitionId) {
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute(['competition_id' => $competitionId]);
+    } else {
+        $stmt = $pdo->query($sql);
+    }
+
+    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
     $events = array_map(fn($row) => new EventDto($row), $rows);
 
     echo json_encode($events, JSON_PRETTY_PRINT);
