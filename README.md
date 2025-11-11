@@ -113,10 +113,11 @@ Type: Many events can take place at one venue.
 Cardinality: venues (1) —— (∞) events
 
 
+### Before running migrations or seeder, use this command to enter the PHP running container:
 
-Before running migrations or seeder, use this command to enter the PHP running container:
-
+```
 docker exec -it sr_exercise bash
+```
 
 Inside the container, use these commands to get:
 
