@@ -1,0 +1,21 @@
+Use of AI in My Work
+
+In my development process, I integrated AI tools such as GitHub Copilot and ChatGPT to enhance efficiency and code quality.
+
+Environment Setup:
+I configured a local environment where the server and frontend could communicate. Although this setup involved some DevOps work, I kept it minimal to focus on the core functionality.
+
+Code Assistance and Refactoring:
+AI provided real-time code suggestions with co-pilot which helped identify cleaner, more maintainable solutions during refactoring. For instance, while I could have implemented certain logic differently, AI-assisted alternatives led to more efficient and readable code.
+
+Backend and API Understanding:
+I used AI to strengthen my understanding of server-side concepts, API structure, and database integration. It supported me in applying my knowledge of how APIs function, how data is imported into databases, and how connections are managed effectively.
+
+Concept Implementation:
+When working with concepts such as DTOs (Data Transfer Objects), AI helped me refine my implementation based on best practices, aligning with what I already understood conceptually.
+
+Frontend Styling:
+To optimize time and maintain consistency, I used AI assistance when working with Tailwind CSS, enabling faster iteration and cleaner design adjustments.
+
+Research and Information Gathering:
+AI was also valuable for quickly collecting relevant technical information, ensuring that implementation decisions were well-informed and up to date.
